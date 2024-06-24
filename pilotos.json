@@ -1,0 +1,82 @@
+[
+    {
+        "nombre": "John Doe",
+        "nacionalidad": "Estados Unidos",
+        "numero_de_id": "P12345678",
+        "vuelo": "A100",
+        "horas_de_vuelo": 600,
+        "tipo_de_licencia": "PPL"
+    },
+    {
+        "nombre": "Jane Smith",
+        "nacionalidad": "Reino Unido",
+        "numero_de_id": "P98765432",
+        "vuelo": "A200",
+        "horas_de_vuelo": 99,
+        "tipo_de_licencia": "CPL"
+    },
+    {
+        "nombre": "Carlos Rodríguez",
+        "nacionalidad": "México",
+        "numero_de_id": "P87654321",
+        "vuelo": "A300",
+        "horas_de_vuelo": 1500,
+        "tipo_de_licencia": "ATPL"
+    },
+    {
+        "nombre": "Laura García",
+        "nacionalidad": "España",
+        "numero_de_id": "P12398765",
+        "vuelo": "A400",
+        "horas_de_vuelo": 850,
+        "tipo_de_licencia": "CPL"
+    },
+    {
+        "nombre": "Michael Brown",
+        "nacionalidad": "Canadá",
+        "numero_de_id": "P45678912",
+        "vuelo": "A500",
+        "horas_de_vuelo": 400,
+        "tipo_de_licencia": "PPL"
+    },
+    {
+        "nombre": "Sophie Müller",
+        "nacionalidad": "Alemania",
+        "numero_de_id": "P65432178",
+        "vuelo": "A600",
+        "horas_de_vuelo": 1200,
+        "tipo_de_licencia": "ATPL"
+    },
+    {
+        "nombre": "Akira Yamamoto",
+        "nacionalidad": "Japón",
+        "numero_de_id": "P43219876",
+        "vuelo": "A700",
+        "horas_de_vuelo": 700,
+        "tipo_de_licencia": "CPL"
+    },
+    {
+        "nombre": "Emma Johnson",
+        "nacionalidad": "Australia",
+        "numero_de_id": "P32165487",
+        "vuelo": "A800",
+        "horas_de_vuelo": 500,
+        "tipo_de_licencia": "PPL"
+    },
+    {
+        "nombre": "Luca Bianchi",
+        "nacionalidad": "Italia",
+        "numero_de_id": "P78965412",
+        "vuelo": "A900",
+        "horas_de_vuelo": 1100,
+        "tipo_de_licencia": "ATPL"
+    },
+    {
+        "nombre": "Anya Petrova",
+        "nacionalidad": "Rusia",
+        "numero_de_id": "P96325874",
+        "vuelo": "A1000",
+        "horas_de_vuelo": 950,
+        "tipo_de_licencia": "CPL"
+    }
+]
