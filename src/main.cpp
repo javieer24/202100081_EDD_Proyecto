@@ -12,13 +12,14 @@
 #include <windows.h>
 #include "ListaEnlazadaDoble.h"
 #include "TablaHash.h" // Incluir la clase TablaHash
-#include "GrafoListaDeAdyacencia.h"//Incluir Grafo utilizando lista de adyacencia
+#include "GrafoListaDeAdyacencia.h" // Incluir Grafo utilizando lista de adyacencia
+#include "Dijkstra.h" // Incluir Dijkstra
 
 using json = nlohmann::json;
 
 std::vector<Vuelo> cargarVuelosDesdeJson(const std::string& archivo) {
     std::ifstream entrada(archivo);
-    
+
     if (!entrada.is_open()) {
         throw std::runtime_error("No se pudo abrir el archivo JSON");
     }
@@ -98,6 +99,7 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
     do {
         a:
         system("cls"); // limpiamos pantalla
+        std::cout << "Sistema de Gestión de Vuelos" << std::endl;
         std::cout << "\nMenú de opciones:" << std::endl;
         std::cout << "1. Carga de aviones" << std::endl;
         std::cout << "2. Carga de pilotos" << std::endl;
@@ -107,7 +109,6 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
         std::cout << "6. Recomendar ruta" << std::endl;
         std::cout << "7. Visualizar reportes" << std::endl;
         std::cout << "8. Salir" << std::endl;
-
         std::cout << "Ingrese el número de opción deseada: ";
         std::cin >> opcion;
 
@@ -205,10 +206,43 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
                 system("pause");
                 break;
 
-            case 6:
-                std::cout << "Recomendar ruta no implementado." << std::endl;
-                system("pause");
+            case 6: {
+                try {
+                    std::string ciudadOrigen, ciudadDestino;
+                    std::cout << "Ingrese la ciudad de origen: ";
+                    std::cin >> ciudadOrigen;
+                    std::cout << "Ingrese la ciudad de destino: ";
+                    std::cin >> ciudadDestino;
+
+                    int origen = grafo.ciudadAIndice(ciudadOrigen);
+                    int destino = grafo.ciudadAIndice(ciudadDestino);
+
+                    if (origen == -1 || destino == -1) {
+                        std::cerr << "Ciudad origen o destino no válidas." << std::endl;
+                    } else {
+                        std::vector<int> ruta = Dijkstra::encontrarRutaMasCorta(grafo, origen, destino);
+                        if (ruta.empty()) {
+                            std::cout << "No hay ruta disponible entre " << ciudadOrigen << " y " << ciudadDestino << "." << std::endl;
+                        } else {
+                            std::cout << "Ruta más corta entre " << ciudadOrigen << " y " << ciudadDestino << ":" << std::endl;
+                            for (int i = 0; i < ruta.size(); ++i) {
+                                std::cout << grafo.indiceACiudadNombre(ruta[i]);
+                                if (i < ruta.size() - 1) {
+                                    std::cout << " -> ";
+                                }
+                            }
+                            std::cout << std::endl;
+                        }
+                    }
+                    printf("\n");
+                    system("pause");
+                } catch (const std::exception& e) {
+                    std::cerr << "Error al recomendar ruta: " << e.what() << std::endl;
+                    printf("\n");
+                    system("pause");
+                }
                 break;
+            }
 
             case 7:
                 std::cout << "Visualizar reportes no implementado." << std::endl;
@@ -238,9 +272,9 @@ int main() {
     ArbolB arbolAviones;
     ArbolBB<Piloto> arbolPilotos;
     TablaHash<Piloto> tablaPilotos;
-    
-    //Mostrar el menú principal
+
+    // Mostrar el menú principal
     mostrarMenu(arbolAviones, arbolPilotos, tablaPilotos);
-    
+
     return 0;
 }

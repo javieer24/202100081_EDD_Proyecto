@@ -15,6 +15,7 @@ private:
     int V; // Número de vértices del grafo
     std::vector<std::list<std::pair<int, int>>> adj; // Vector de listas de pares para almacenar las listas de adyacencia
     std::unordered_map<std::string, int> ciudadAMapa; // Mapa para convertir nombres de ciudades a índices
+    std::unordered_map<int, std::string> indiceACiudad; // Mapa inverso para convertir índices a nombres de ciudades
     int contadorCiudades; // Contador para asignar índices únicos a las ciudades
 
     // Función privada para dividir una cadena por un delimitador
@@ -59,10 +60,12 @@ public:
             }
 
             if (ciudadAMapa.find(ciudad_origen) == ciudadAMapa.end()) {
-                ciudadAMapa[ciudad_origen] = contadorCiudades++;
+                ciudadAMapa[ciudad_origen] = contadorCiudades;
+                indiceACiudad[contadorCiudades++] = ciudad_origen;
             }
             if (ciudadAMapa.find(ciudad_destino) == ciudadAMapa.end()) {
-                ciudadAMapa[ciudad_destino] = contadorCiudades++;
+                ciudadAMapa[ciudad_destino] = contadorCiudades;
+                indiceACiudad[contadorCiudades++] = ciudad_destino;
             }
 
             int u = ciudadAMapa[ciudad_origen];
@@ -84,15 +87,32 @@ public:
         adj[u].push_back(std::make_pair(v, peso));
     }
 
-    // Método para imprimir el grafo en formato de lista de adyacencia
-    void imprimirGrafo() {
-        for (size_t i = 0; i < adj.size(); ++i) {
-            std::cout << i << " -> ";
-            for (const auto& pair : adj[i]) {
-                std::cout << "(" << pair.first << ", " << pair.second << ") ";
-            }
-            std::cout << std::endl;
+    // Método para obtener el número de vértices
+    int obtenerNumeroDeVertices() const {
+        return V;
+    }
+
+    // Método para obtener la lista de adyacencia
+    const std::vector<std::list<std::pair<int, int>>>& obtenerListaDeAdyacencia() const {
+        return adj;
+    }
+
+    // Método para convertir un nombre de ciudad a su índice
+    int ciudadAIndice(const std::string& ciudad) const {
+        auto it = ciudadAMapa.find(ciudad);
+        if (it != ciudadAMapa.end()) {
+            return it->second;
         }
+        return -1; // Ciudad no encontrada
+    }
+
+    // Método para convertir un índice a su nombre de ciudad
+    std::string indiceACiudadNombre(int indice) const {
+        auto it = indiceACiudad.find(indice);
+        if (it != indiceACiudad.end()) {
+            return it->second;
+        }
+        return ""; // Índice no encontrado
     }
 };
 

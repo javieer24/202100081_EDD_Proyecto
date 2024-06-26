@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug _EDD_PROYECTO",
+            "name": "Debug 202100081_EDD_PROYECTO",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/output/main.exe",
