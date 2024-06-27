@@ -8,12 +8,11 @@
 #include "ArbolBB.h"
 #include "Piloto.h"
 #include <locale>
-//#define NOMINMAX 
 #include <windows.h>
-#include "ListaEnlazadaDoble.h"
-#include "TablaHash.h" // Incluir la clase TablaHash
-#include "GrafoListaDeAdyacencia.h" // Incluir Grafo utilizando lista de adyacencia
-#include "Dijkstra.h" // Incluir Dijkstra
+#include "TablaHash.h"
+#include "GrafoListaDeAdyacencia.h"
+#include "Dijkstra.h"
+#include "MatrizDispersa.h"
 
 using json = nlohmann::json;
 
@@ -92,14 +91,12 @@ void mostrarArbolPostorden(ArbolBB<Piloto>& arbolPilotos) {
     std::cout << std::endl;
 }
 
-void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<Piloto>& tablaPilotos) {
+void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<Piloto>& tablaPilotos, MatrizDispersa& matrizDispersa) {
     std::string opcion;
-    GrafoListaDeAdyacencia grafo(7); // Inicialmente asumiendo 7 vértices
+    GrafoListaDeAdyacencia grafo(7);
 
     do {
-        a:
-        system("cls"); // limpiamos pantalla
-        std::cout << "Sistema de Gestión de Vuelos" << std::endl;
+        system("cls");
         std::cout << "\nMenú de opciones:" << std::endl;
         std::cout << "1. Carga de aviones" << std::endl;
         std::cout << "2. Carga de pilotos" << std::endl;
@@ -108,173 +105,158 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
         std::cout << "5. Consulta de horas de vuelo (pilotos)" << std::endl;
         std::cout << "6. Recomendar ruta" << std::endl;
         std::cout << "7. Visualizar reportes" << std::endl;
-        std::cout << "8. Salir" << std::endl;
+        std::cout << "8. Consultar piloto por ID" << std::endl;
+        std::cout << "9. Salir" << std::endl;
+
         std::cout << "Ingrese el número de opción deseada: ";
         std::cin >> opcion;
 
-        // Validación del menú
-        if (opcion != "1" && opcion != "2" && opcion != "3" && opcion != "4" &&
-            opcion != "5" && opcion != "6" && opcion != "7" && opcion != "8") {
-            std::cout << "Opción inválida. Ingrese un número del 1 al 8. \n";
-            system("pause"); // pregunta para presionar una tecla
-            goto a;
-        }
-
-        switch (stoi(opcion)) {
-            case 1:
-                try {
-                    std::string rutaAviones = "../../aviones.json";
-                    std::vector<Vuelo> vuelos = cargarVuelosDesdeJson(rutaAviones);
-                    for (const auto& vuelo : vuelos) {
-                        arbolAviones.insertar(vuelo);
-                    }
-                    std::cout << "Aviones cargados exitosamente." << std::endl;
-                    printf("\n");
-                    system("pause");
-                } catch (const std::exception& e) {
-                    std::cerr << "Error al cargar aviones: " << e.what() << std::endl;
-                    printf("\n");
-                    system("pause");
+        if (opcion == "1") {
+            try {
+                std::string rutaAviones = "../../aviones.json";
+                std::vector<Vuelo> vuelos = cargarVuelosDesdeJson(rutaAviones);
+                for (const auto& vuelo : vuelos) {
+                    arbolAviones.insertar(vuelo);
                 }
-                break;
-
-            case 2:
-                try {
-                    std::string rutaPilotos = "../../pilotos.json";
-                    std::vector<Piloto> pilotos = cargarPilotosDesdeJson(rutaPilotos);
-                    for (const auto& piloto : pilotos) {
-                        arbolPilotos.insertar(piloto);
-                        tablaPilotos.insertar(piloto);
-                    }
-                    std::cout << "Pilotos cargados exitosamente." << std::endl;
-                    printf("\n");
-                    system("pause");
-                } catch (const std::exception& e) {
-                    std::cerr << "Error al cargar pilotos: " << e.what() << std::endl;
-                    printf("\n");
-                    system("pause");
-                }
-                break;
-
-            case 3:
-                try {
-                    grafo.cargarRutasDesdeArchivo("../../rutas.txt");
-                    //grafo.imprimirGrafo();
-                    std::cout << "Rutas cargadas en el grafo con listas adyacentes exitosamente" << std::endl;
-                    printf("\n");
-                    system("pause");
-                } catch (const std::exception& e) {
-                    std::cerr << "Error al cargar rutas: " << e.what() << std::endl;
-                    printf("\n");
-                    system("pause");
-                }
-                break;
-
-            case 4:
-                std::cout << "Carga de movimientos no implementada." << std::endl;
+                std::cout << "Aviones cargados exitosamente." << std::endl;
+                printf("\n");
                 system("pause");
-                break;
-
-            case 5:
-                // Consulta de horas de vuelo (pilotos)
-                std::cout << "Consulta de horas de vuelo de pilotos:" << std::endl;
-                std::cout << "Selecciona el orden de recorrido del árbol:" << std::endl;
-                std::cout << "1. Preorden" << std::endl;
-                std::cout << "2. Inorder" << std::endl;
-                std::cout << "3. Postorden" << std::endl;
-                std::cout << "4. Ver Tabla Hash" << std::endl;
-                std::cout << "Ingrese el número de opción deseada: ";
-                std::cin >> opcion;
-                switch (stoi(opcion)) {
-                    case 1:
-                        mostrarArbolPreorden(arbolPilotos);
-                        break;
-                    case 2:
-                        mostrarArbolInorder(arbolPilotos);
-                        break;
-                    case 3:
-                        mostrarArbolPostorden(arbolPilotos);
-                        break;
-                    case 4:
-                        std::cout << "Contenido de la tabla hash de pilotos:" << std::endl << std::endl;
-                        tablaPilotos.mostrar();
-                        break;
-                    default:
-                        std::cout << "Opción inválida. Volviendo al menú principal." << std::endl;
-                        break;
-                }
+            } catch (const std::exception& e) {
+                std::cerr << "Error al cargar aviones: " << e.what() << std::endl;
+                printf("\n");
                 system("pause");
-                break;
-
-            case 6: {
-                try {
-                    std::string ciudadOrigen, ciudadDestino;
-                    std::cout << "Ingrese la ciudad de origen: ";
-                    std::cin >> ciudadOrigen;
-                    std::cout << "Ingrese la ciudad de destino: ";
-                    std::cin >> ciudadDestino;
-
-                    int origen = grafo.ciudadAIndice(ciudadOrigen);
-                    int destino = grafo.ciudadAIndice(ciudadDestino);
-
-                    if (origen == -1 || destino == -1) {
-                        std::cerr << "Ciudad origen o destino no válidas." << std::endl;
-                    } else {
-                        std::vector<int> ruta = Dijkstra::encontrarRutaMasCorta(grafo, origen, destino);
-                        if (ruta.empty()) {
-                            std::cout << "No hay ruta disponible entre " << ciudadOrigen << " y " << ciudadDestino << "." << std::endl;
-                        } else {
-                            std::cout << "Ruta más corta entre " << ciudadOrigen << " y " << ciudadDestino << ":" << std::endl;
-                            for (int i = 0; i < ruta.size(); ++i) {
-                                std::cout << grafo.indiceACiudadNombre(ruta[i]);
-                                if (i < ruta.size() - 1) {
-                                    std::cout << " -> ";
-                                }
-                            }
-                            std::cout << std::endl;
-                        }
-                    }
-                    printf("\n");
-                    system("pause");
-                } catch (const std::exception& e) {
-                    std::cerr << "Error al recomendar ruta: " << e.what() << std::endl;
-                    printf("\n");
-                    system("pause");
-                }
-                break;
             }
-
-            case 7:
-                std::cout << "Visualizar reportes no implementado." << std::endl;
+        } else if (opcion == "2") {
+            try {
+                std::string rutaPilotos = "../../pilotos.json";
+                std::vector<Piloto> pilotos = cargarPilotosDesdeJson(rutaPilotos);
+                for (const auto& piloto : pilotos) {
+                    arbolPilotos.insertar(piloto);
+                    tablaPilotos.insertar(piloto);
+                }
+                std::cout << "Pilotos cargados exitosamente." << std::endl;
+                printf("\n");
                 system("pause");
-                break;
-
-            case 8:
-                std::cout << "Saliendo del programa." << std::endl;
-                break;
-
-            default:
-                std::cout << "Opción inválida. Volviendo al menú principal." << std::endl;
+            } catch (const std::exception& e) {
+                std::cerr << "Error al cargar pilotos: " << e.what() << std::endl;
+                printf("\n");
                 system("pause");
-                break;
+            }
+        } else if (opcion == "3") {
+            try {
+                grafo.cargarRutasDesdeArchivo("../../rutas.txt");
+                std::cout << "Rutas cargadas en el grafo con listas adyacentes exitosamente" << std::endl;
+                printf("\n");
+                system("pause");
+            } catch (const std::exception& e) {
+                std::cerr << "Error al cargar rutas: " << e.what() << std::endl;
+                printf("\n");
+                system("pause");
+            }
+        } else if (opcion == "4") {
+            std::cout << "Carga de movimientos no implementada." << std::endl;
+            system("pause");
+        } else if (opcion == "5") {
+            std::cout << "Consulta de horas de vuelo de pilotos:" << std::endl;
+            std::cout << "Selecciona el orden de recorrido del árbol:" << std::endl;
+            std::cout << "1. Preorden" << std::endl;
+            std::cout << "2. Inorder" << std::endl;
+            std::cout << "3. Postorden" << std::endl;
+            std::cout << "4. Ver Tabla Hash" << std::endl;
+            std::cout << "Ingrese el número de opción deseada: ";
+            std::cin >> opcion;
+            switch (stoi(opcion)) {
+                case 1:
+                    mostrarArbolPreorden(arbolPilotos);
+                    break;
+                case 2:
+                    mostrarArbolInorder(arbolPilotos);
+                    break;
+                case 3:
+                    mostrarArbolPostorden(arbolPilotos);
+                    break;
+                case 4:
+                    std::cout << "Contenido de la tabla hash de pilotos:" << std::endl << std::endl;
+                    tablaPilotos.mostrar();
+                    break;
+                default:
+                    std::cout << "Opción inválida. Volviendo al menú principal." << std::endl;
+                    break;
+            }
+            system("pause");
+        } else if (opcion == "6") {
+            try {
+                std::string ciudadOrigen, ciudadDestino;
+                std::cout << "Ingrese la ciudad de origen: ";
+                std::cin >> ciudadOrigen;
+                std::cout << "Ingrese la ciudad de destino: ";
+                std::cin >> ciudadDestino;
+
+                int origen = grafo.ciudadAIndice(ciudadOrigen);
+                int destino = grafo.ciudadAIndice(ciudadDestino);
+
+                if (origen == -1 || destino == -1) {
+                    std::cerr << "Ciudad origen o destino no válidas." << std::endl;
+                } else {
+                    std::vector<int> ruta = Dijkstra::encontrarRutaMasCorta(grafo, origen, destino);
+                    if (ruta.empty()) {
+                        std::cout << "No hay ruta disponible entre " << ciudadOrigen << " y " << ciudadDestino << "." << std::endl;
+                    } else {
+                        std::cout << "Ruta más corta entre " << ciudadOrigen << " y " << ciudadDestino << ":" << std::endl;
+                        for (int i = 0; i < ruta.size(); ++i) {
+                            std::cout << grafo.indiceACiudadNombre(ruta[i]);
+                            if (i < ruta.size() - 1) {
+                                std::cout << " -> ";
+                            }
+                        }
+                        std::cout << std::endl;
+                    }
+                }
+                printf("\n");
+                system("pause");
+            } catch (const std::exception& e) {
+                std::cerr << "Error al recomendar ruta: " << e.what() << std::endl;
+                printf("\n");
+                system("pause");
+            }
+        } else if (opcion == "8") {
+            std::cout << "Consulta de piloto:" << std::endl;
+            std::string numero_de_id;
+            std::cout << "Ingrese el número de identificación del piloto: ";
+            std::cin >> numero_de_id;
+            try {
+                auto consulta = matrizDispersa.consultarPiloto(numero_de_id);
+                std::string nombre = std::get<0>(consulta);
+                std::string vuelo = std::get<1>(consulta);
+                std::string ciudad_destino = std::get<4>(consulta);
+                std::cout << "Nombre del piloto: " << nombre << std::endl;
+                std::cout << "Vuelo asignado: " << vuelo << std::endl;
+                std::cout << "Ciudad de destino: " << ciudad_destino << std::endl;
+            } catch (const std::exception& e) {
+                std::cerr << "Error al consultar piloto: " << e.what() << std::endl;
+            }
+            system("pause");
+        } else if (opcion == "8") {
+            std::cout << "Saliendo del programa." << std::endl;
+        } else {
+            std::cout << "Opción inválida. Por favor, ingrese un número del 1 al 8." << std::endl;
+            system("pause");
         }
 
-    } while (opcion != "8");
+    } while (opcion != "9");
 }
 
 int main() {
-    // Configurar el locale para UTF-8
     std::setlocale(LC_ALL, ".utf8");
-    SetConsoleCP(CP_UTF8); // Input codepage (affects cin, scanf, etc.)
-    SetConsoleOutputCP(CP_UTF8); // Output codepage (affects cout, printf, etc.)
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
 
-    // Crear instancias de los árboles
     ArbolB arbolAviones;
     ArbolBB<Piloto> arbolPilotos;
     TablaHash<Piloto> tablaPilotos;
+    MatrizDispersa matrizDispersa("../../aviones.json", "../../rutas.txt", "../../pilotos.json");
 
-    // Mostrar el menú principal
-    mostrarMenu(arbolAviones, arbolPilotos, tablaPilotos);
+    mostrarMenu(arbolAviones, arbolPilotos, tablaPilotos, matrizDispersa);
 
     return 0;
 }
