@@ -44,6 +44,19 @@ public:
         }
     }
 
+    void eliminar(const std::string& numero_de_registro) {
+        eliminar(raiz, numero_de_registro);
+        if (raiz->n == 0) {
+            Nodo* temp = raiz;
+            if (raiz->hoja) {
+                raiz = nullptr;
+            } else {
+                raiz = raiz->hijo[0];
+            }
+            delete temp;
+        }
+    }
+
     void imprimir() {
         imprimir(raiz, 0);
     }
@@ -95,25 +108,195 @@ private:
     void insertarNoLleno(Nodo* x, const Vuelo& k) {
         int i = x->n - 1;
         if (x->hoja) {
-            while (i >= 0 && k < x->clave[i]) {
+            while (i >= 0 && k.numero_de_registro < x->clave[i].numero_de_registro) {
                 x->clave[i + 1] = x->clave[i];
                 i--;
             }
             x->clave[i + 1] = k;
             x->n = x->n + 1;
         } else {
-            while (i >= 0 && k < x->clave[i]) {
+            while (i >= 0 && k.numero_de_registro < x->clave[i].numero_de_registro) {
                 i--;
             }
             i++;
             if (x->hijo[i]->n == ORDEN - 1) {
                 dividirHijo(x, i, x->hijo[i]);
-                if (k > x->clave[i]) {
+                if (k.numero_de_registro > x->clave[i].numero_de_registro) {
                     i++;
                 }
             }
             insertarNoLleno(x->hijo[i], k);
         }
+    }
+
+    void eliminar(Nodo* x, const std::string& numero_de_registro) {
+        int idx = encontrarClave(x, numero_de_registro);
+
+        if (idx < x->n && x->clave[idx].numero_de_registro == numero_de_registro) {
+            if (x->hoja) {
+                eliminarDeHoja(x, idx);
+            } else {
+                eliminarDeNoHoja(x, idx);
+            }
+        } else {
+            if (x->hoja) {
+                std::cout << "El número de registro " << numero_de_registro << " no existe en el árbol.\n";
+                return;
+            }
+            
+            bool flag = ( (idx == x->n) ? true : false );
+            if (x->hijo[idx]->n < ORDEN / 2) {
+                llenar(x, idx);
+            }
+            if (flag && idx > x->n) {
+                eliminar(x->hijo[idx - 1], numero_de_registro);
+            } else {
+                eliminar(x->hijo[idx], numero_de_registro);
+            }
+        }
+    }
+
+    int encontrarClave(Nodo* x, const std::string& numero_de_registro) {
+        int idx = 0;
+        while (idx < x->n && x->clave[idx].numero_de_registro < numero_de_registro) {
+            idx++;
+        }
+        return idx;
+    }
+
+    void eliminarDeHoja(Nodo* x, int idx) {
+        for (int i = idx + 1; i < x->n; i++) {
+            x->clave[i - 1] = x->clave[i];
+        }
+        x->n--;
+    }
+
+    void eliminarDeNoHoja(Nodo* x, int idx) {
+        Vuelo k = x->clave[idx];
+        if (x->hijo[idx]->n >= ORDEN / 2) {
+            Vuelo pre = obtenerPredecesor(x, idx);
+            x->clave[idx] = pre;
+            eliminar(x->hijo[idx], pre.numero_de_registro);
+        } else if (x->hijo[idx + 1]->n >= ORDEN / 2) {
+            Vuelo suc = obtenerSucesor(x, idx);
+            x->clave[idx] = suc;
+            eliminar(x->hijo[idx + 1], suc.numero_de_registro);
+        } else {
+            unir(x, idx);
+            eliminar(x->hijo[idx], k.numero_de_registro);
+        }
+    }
+
+    Vuelo obtenerPredecesor(Nodo* x, int idx) {
+        Nodo* cur = x->hijo[idx];
+        while (!cur->hoja) {
+            cur = cur->hijo[cur->n];
+        }
+        return cur->clave[cur->n - 1];
+    }
+
+    Vuelo obtenerSucesor(Nodo* x, int idx) {
+        Nodo* cur = x->hijo[idx + 1];
+        while (!cur->hoja) {
+            cur = cur->hijo[0];
+        }
+        return cur->clave[0];
+    }
+
+    void llenar(Nodo* x, int idx) {
+        if (idx != 0 && x->hijo[idx - 1]->n >= ORDEN / 2) {
+            pedirPrestadoAnterior(x, idx);
+        } else if (idx != x->n && x->hijo[idx + 1]->n >= ORDEN / 2) {
+            pedirPrestadoSiguiente(x, idx);
+        } else {
+            if (idx != x->n) {
+                unir(x, idx);
+            } else {
+                unir(x, idx - 1);
+            }
+        }
+    }
+
+    void pedirPrestadoAnterior(Nodo* x, int idx) {
+        Nodo* child = x->hijo[idx];
+        Nodo* sibling = x->hijo[idx - 1];
+
+        for (int i = child->n - 1; i >= 0; --i) {
+            child->clave[i + 1] = child->clave[i];
+        }
+
+        if (!child->hoja) {
+            for (int i = child->n; i >= 0; --i) {
+                child->hijo[i + 1] = child->hijo[i];
+            }
+        }
+
+        child->clave[0] = x->clave[idx - 1];
+
+        if (!x->hoja) {
+            child->hijo[0] = sibling->hijo[sibling->n];
+        }
+
+        x->clave[idx - 1] = sibling->clave[sibling->n - 1];
+
+        child->n += 1;
+        sibling->n -= 1;
+    }
+
+    void pedirPrestadoSiguiente(Nodo* x, int idx) {
+        Nodo* child = x->hijo[idx];
+        Nodo* sibling = x->hijo[idx + 1];
+
+        child->clave[child->n] = x->clave[idx];
+
+        if (!(child->hoja)) {
+            child->hijo[child->n + 1] = sibling->hijo[0];
+        }
+
+        x->clave[idx] = sibling->clave[0];
+
+        for (int i = 1; i < sibling->n; ++i) {
+            sibling->clave[i - 1] = sibling->clave[i];
+        }
+
+        if (!sibling->hoja) {
+            for (int i = 1; i <= sibling->n; ++i) {
+                sibling->hijo[i - 1] = sibling->hijo[i];
+            }
+        }
+
+        child->n += 1;
+        sibling->n -= 1;
+    }
+
+    void unir(Nodo* x, int idx) {
+        Nodo* child = x->hijo[idx];
+        Nodo* sibling = x->hijo[idx + 1];
+
+        child->clave[ORDEN / 2 - 1] = x->clave[idx];
+
+        for (int i = 0; i < sibling->n; ++i) {
+            child->clave[i + ORDEN / 2] = sibling->clave[i];
+        }
+
+        if (!child->hoja) {
+            for (int i = 0; i <= sibling->n; ++i) {
+                child->hijo[i + ORDEN / 2] = sibling->hijo[i];
+            }
+        }
+
+        for (int i = idx + 1; i < x->n; ++i) {
+            x->clave[i - 1] = x->clave[i];
+        }
+
+        for (int i = idx + 2; i <= x->n; ++i) {
+            x->hijo[i - 1] = x->hijo[i];
+        }
+
+        child->n += sibling->n + 1;
+        x->n--;
+
+        delete sibling;
     }
 
     void imprimir(Nodo* x, int indent) {

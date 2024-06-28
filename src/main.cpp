@@ -13,6 +13,7 @@
 #include "GrafoListaDeAdyacencia.h"
 #include "Dijkstra.h"
 #include "MatrizDispersa.h"
+#include "ListaEnlazadaDoble.h"
 
 using json = nlohmann::json;
 
@@ -91,7 +92,7 @@ void mostrarArbolPostorden(ArbolBB<Piloto>& arbolPilotos) {
     std::cout << std::endl;
 }
 
-void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<Piloto>& tablaPilotos, MatrizDispersa& matrizDispersa) {
+void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<Piloto>& tablaPilotos, MatrizDispersa& matrizDispersa, ListaEnlazadaDoble& listaEnlazada) {
     std::string opcion;
     GrafoListaDeAdyacencia grafo(7);
 
@@ -105,8 +106,9 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
         std::cout << "5. Consulta de horas de vuelo (pilotos)" << std::endl;
         std::cout << "6. Recomendar ruta" << std::endl;
         std::cout << "7. Visualizar reportes" << std::endl;
-        std::cout << "8. Consultar piloto por ID" << std::endl;
-        std::cout << "9. Salir" << std::endl;
+        std::cout << "8. Consultar piloto por ID" << std::endl; 
+        std::cout << "9. Pasar Avión de Arbol de Búsqueda a Lista Enlzada Doble" << std::endl;
+        std::cout << "10. Salir" << std::endl;
 
         std::cout << "Ingrese el número de opción deseada: ";
         std::cin >> opcion;
@@ -236,14 +238,69 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
                 std::cerr << "Error al consultar piloto: " << e.what() << std::endl;
             }
             system("pause");
-        } else if (opcion == "8") {
+        } else if (opcion == "10") {
             std::cout << "Saliendo del programa." << std::endl;
+        } else if (opcion == "9") {//Eliminar del Arból de Búsqueda Orden y pasar a Lista Enlazada Doble
+            std::cout << "Eliminar avión por número de registro:" << std::endl;
+            std::string numero_de_registro;
+            std::cout << "Ingrese el número de registro del avión: ";
+            std::cin >> numero_de_registro;
+            try {//Se intenta eliminar
+                arbolAviones.eliminar(numero_de_registro);
+                std::cout << "Avión con número de registro " << numero_de_registro << " eliminado exitosamente." << std::endl;
+                arbolAviones.imprimir();//imprimir todo
+
+            //En esta sección se ingresa a la lista enlazada doble
+                std::string rutaAviones = "../../aviones.json";
+                std::vector<Vuelo> vuelos = cargarVuelosDesdeJson(rutaAviones);
+                bool encontrado = false;
+
+                for (const auto& vuelo : vuelos) {
+                    if (vuelo.numero_de_registro == numero_de_registro) {
+                        listaEnlazada.insertarAlFinal(vuelo);
+                        std::cout << "Avión con número de registro " << numero_de_registro << " cargado exitosamente en la lista enlazada doble." << std::endl;
+                        encontrado = true;
+                        break;
+                    }
+                }
+            //Fin de la sección de lista enlazada doble
+                
+            } catch (const std::exception& e) {
+                std::cerr << "Error al eliminar avión: " << e.what() << std::endl;
+            }
+            system("pause");
+        } else if (opcion == "/") {
+            std::cout << "Cargar avión en lista enlazada doble:" << std::endl;
+            std::string numero_de_registro;
+            std::cout << "Ingrese el número de registro del avión: ";
+            std::cin >> numero_de_registro;
+            try {
+                std::string rutaAviones = "../../aviones.json";
+                std::vector<Vuelo> vuelos = cargarVuelosDesdeJson(rutaAviones);
+                bool encontrado = false;
+                for (const auto& vuelo : vuelos) {
+                    if (vuelo.numero_de_registro == numero_de_registro) {
+                        listaEnlazada.insertarAlFinal(vuelo);
+                        std::cout << "Avión con número de registro " << numero_de_registro << " cargado exitosamente en la lista enlazada doble." << std::endl;
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    std::cout << "Avión con número de registro " << numero_de_registro << " no encontrado en el archivo JSON." << std::endl;
+                }
+                listaEnlazada.imprimir();
+                system("pause");
+            } catch (const std::exception& e) {
+                std::cerr << "Error al cargar avión en la lista enlazada doble: " << e.what() << std::endl;
+                system("pause");
+            }
         } else {
-            std::cout << "Opción inválida. Por favor, ingrese un número del 1 al 8." << std::endl;
+            std::cout << "Opción inválida. Por favor, ingrese un número del 1 al 10." << std::endl;
             system("pause");
         }
 
-    } while (opcion != "9");
+    } while (opcion != "10");
 }
 
 int main() {
@@ -255,8 +312,9 @@ int main() {
     ArbolBB<Piloto> arbolPilotos;
     TablaHash<Piloto> tablaPilotos;
     MatrizDispersa matrizDispersa("../../aviones.json", "../../rutas.txt", "../../pilotos.json");
+    ListaEnlazadaDoble listaEnlazada;
 
-    mostrarMenu(arbolAviones, arbolPilotos, tablaPilotos, matrizDispersa);
+    mostrarMenu(arbolAviones, arbolPilotos, tablaPilotos, matrizDispersa, listaEnlazada);
 
     return 0;
 }
