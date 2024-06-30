@@ -11,10 +11,11 @@ using json = nlohmann::json;
 // Nodo de la lista enlazada doble
 struct NodoDoble {
     Vuelo vuelo;
+    std::string numero_de_registro;
     NodoDoble* siguiente;
     NodoDoble* anterior;
 
-    NodoDoble(const Vuelo& v) : vuelo(v), siguiente(nullptr), anterior(nullptr) {}
+        NodoDoble(const Vuelo& v, const std::string& num_reg) : vuelo(v), numero_de_registro(num_reg), siguiente(nullptr), anterior(nullptr) {}
 };
 
 // Lista doble circular
@@ -27,8 +28,8 @@ public:
     }
 
     // Función para insertar un vuelo al final de la lista
-    void insertarAlFinal(const Vuelo& vuelo) {
-        NodoDoble* nuevoNodo = new NodoDoble(vuelo);
+    void insertarAlFinal(const Vuelo& vuelo, const std::string& numero_de_registro) {
+        NodoDoble* nuevoNodo = new NodoDoble(vuelo, numero_de_registro);
         if (cola == nullptr) {
             cabeza = cola = nuevoNodo;
             cabeza->siguiente = cabeza;
@@ -67,6 +68,55 @@ public:
         cabeza = cola = nullptr;
     }
 
+    // Función para buscar un vuelo por número de registro
+    NodoDoble* buscarPorNumeroDeRegistro(const std::string& numero_de_registro) const {
+        if (cabeza == nullptr) return nullptr;
+
+        NodoDoble* actual = cabeza;
+        do {
+            if (actual->numero_de_registro == numero_de_registro) {
+                return actual;
+            }
+            actual = actual->siguiente;
+        } while (actual != cabeza);
+
+        return nullptr;
+    }
+
+    // Función para eliminar un vuelo por número de registro
+    bool eliminarPorNumeroDeRegistro(const std::string& numero_de_registro) {
+        if (cabeza == nullptr) return false;
+
+        NodoDoble* nodoAEliminar = nullptr;
+        NodoDoble* actual = cabeza;
+        do {
+            if (actual->numero_de_registro == numero_de_registro) {
+                nodoAEliminar = actual;
+                break;
+            }
+            actual = actual->siguiente;
+        } while (actual != cabeza);
+
+        if (nodoAEliminar == nullptr) {
+            std::cerr << "El vuelo con número de registro " << numero_de_registro << " no existe en la lista." << std::endl;
+            return false;
+        }
+
+        if (nodoAEliminar == cabeza) {
+            cabeza = cabeza->siguiente;
+        }
+        if (nodoAEliminar == cola) {
+            cola = cola->anterior;
+        }
+
+        nodoAEliminar->anterior->siguiente = nodoAEliminar->siguiente;
+        nodoAEliminar->siguiente->anterior = nodoAEliminar->anterior;
+
+        delete nodoAEliminar;
+        return true;
+    }
+
+
     // Función para cargar un vuelo desde el archivo JSON si el numero_de_registro existe
     bool cargarVueloDesdeJson(const std::string& numero_de_registro, const std::string& archivoJson) {
         std::ifstream entrada(archivoJson);
@@ -95,7 +145,7 @@ public:
                 vuelo.ciudad_destino = item.at("ciudad_destino").get<std::string>();
                 vuelo.estado = item.at("estado").get<std::string>();
 
-                insertarAlFinal(vuelo);
+                insertarAlFinal(vuelo, numero_de_registro);
                 return true;
             }
         }

@@ -18,6 +18,7 @@
 
 using json = nlohmann::json;
 
+
 std::vector<Vuelo> cargarVuelosDesdeJson(const std::string& archivo) {
     std::ifstream entrada(archivo);
 
@@ -161,7 +162,7 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
                 system("pause");
             }
         } else if (opcion == "4") {
-            std::cout << "Carga de movimientos no implementada." << std::endl;
+            std::string rutaMovimientos = "C:/Users/javie/Escritorio/202100081_EDD_Proyecto/movimientos.txt";
             system("pause");
         } else if (opcion == "5") {
             std::cout << "Consulta de horas de vuelo de pilotos:" << std::endl;
@@ -245,61 +246,6 @@ void mostrarMenu(ArbolB& arbolAviones, ArbolBB<Piloto>& arbolPilotos, TablaHash<
             system("pause");
         } else if (opcion == "10") {
             std::cout << "Saliendo del programa." << std::endl;
-        } else if (opcion == "9") {//Eliminar del Arból de Búsqueda Orden y pasar a Lista Enlazada Doble
-            std::cout << "Eliminar avión por número de registro:" << std::endl;
-            std::string numero_de_registro;
-            std::cout << "Ingrese el número de registro del avión: ";
-            std::cin >> numero_de_registro;
-            try {//Se intenta eliminar
-                arbolAviones.eliminar(numero_de_registro);
-                std::cout << "Avión con número de registro " << numero_de_registro << " eliminado exitosamente." << std::endl;
-                arbolAviones.imprimir();//imprimir todo
-
-            //En esta sección se ingresa a la lista enlazada doble
-                std::string rutaAviones = "../../aviones.json";
-                std::vector<Vuelo> vuelos = cargarVuelosDesdeJson(rutaAviones);
-                bool encontrado = false;
-
-                for (const auto& vuelo : vuelos) {
-                    if (vuelo.numero_de_registro == numero_de_registro) {
-                        listaEnlazadaCircular.insertarAlFinal(vuelo);
-                        std::cout << "Avión con número de registro " << numero_de_registro << " cargado exitosamente en la lista enlazada doble." << std::endl;
-                        encontrado = true;
-                        break;
-                    }
-                }
-            //Fin de la sección de lista enlazada doble
-                
-            } catch (const std::exception& e) {
-                std::cerr << "Error al eliminar avión: " << e.what() << std::endl;
-            }
-            system("pause");
-        } else if (opcion == "/") {
-            std::cout << "Cargar avión en lista enlazada doble:" << std::endl;
-            std::string numero_de_registro;
-            std::cout << "Ingrese el número de registro del avión: ";
-            std::cin >> numero_de_registro;
-            try {
-                std::string rutaAviones = "../../aviones.json";
-                std::vector<Vuelo> vuelos = cargarVuelosDesdeJson(rutaAviones);
-                bool encontrado = false;
-                for (const auto& vuelo : vuelos) {
-                    if (vuelo.numero_de_registro == numero_de_registro) {
-                        listaEnlazadaCircular.insertarAlFinal(vuelo);
-                        std::cout << "Avión con número de registro " << numero_de_registro << " cargado exitosamente en la lista enlazada doble." << std::endl;
-                        encontrado = true;
-                        break;
-                    }
-                }
-                if (!encontrado) {
-                    std::cout << "Avión con número de registro " << numero_de_registro << " no encontrado en el archivo JSON." << std::endl;
-                }
-                listaEnlazadaCircular.imprimir();
-                system("pause");
-            } catch (const std::exception& e) {
-                std::cerr << "Error al cargar avión en la lista enlazada doble: " << e.what() << std::endl;
-                system("pause");
-            }
         } else {
             std::cout << "Opción inválida. Por favor, ingrese un número del 1 al 10." << std::endl;
             system("pause");
