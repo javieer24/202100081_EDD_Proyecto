@@ -1,24 +1,28 @@
 {
-    "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "type": "shell",
-            "command": "g++",
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe compilar archivo activo",
+            "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
             "args": [
+                "-fdiagnostics-color=always",
                 "-g",
-                "src/main.cpp",
+                "${file}",
                 "-o",
-                "src/output/main.exe",
-                "-I",
-                "include"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": ["$gcc"],
-            "detail": "Compiling the project with g++"
+            "detail": "Tarea generada por el depurador."
         }
-    ]
+    ],
+    "version": "2.0.0"
 }
