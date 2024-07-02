@@ -381,25 +381,25 @@ int main()
     {
     case 1:
     {
-      string rutaAviones ="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/archivosp/aviones.json";
+      string rutaAviones ="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/Archivos_de_Prueba/aviones.json";
       cargarAviones(rutaAviones, arbolBDisponible, listaMantenimiento);
     }
     break;
     case 2:
     {
-      string rutaPilotos="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/archivosp/pilotos.json";
+      string rutaPilotos="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/Archivos_de_Prueba/pilotos.json";
       cargarPilotos(rutaPilotos, arbolBinarioPilotos, tablaPilotos);
     }
     break;
     case 3:
     {
-      string rutaRutas="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/archivosp/rutas.txt";
+      string rutaRutas="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/Archivos_de_Prueba/rutas.txt";
       cargarRutas(rutaRutas, grafoRutas);
     }
     break;
     case 4:
     {
-      string rutaMovimientos="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/archivosp/movimientos.txt";
+      string rutaMovimientos="C:/Users/javie/Escritorio/202100081_EDD_Proyecto/Archivos_de_Prueba/movimientos.txt";
       cargarMovimientos(rutaMovimientos, arbolBinarioPilotos, tablaPilotos);
     }
     break;
