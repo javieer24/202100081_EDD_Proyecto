@@ -223,7 +223,7 @@ void cargarRutas(const string &filename, Grafo &grafoRutas)
     cerr << "Error al abrir el archivo de movimientos. " << endl;
   }
 }
-
+ //Funcion para cargar los movimientos
 void cargarMovimientos(const string &filename, ArbolBB &arbolBinarioPilotos, TablaHash &tablaPilotos)
 {
   ifstream file(filename);
