@@ -1,11 +1,12 @@
 #ifndef PAGINA_H_INCLUDED
 #define PAGINA_H_INCLUDED
 
+
 #include <iostream>
 #include <vector>
 using namespace std;
 
-#include "Aviones.h"
+#include "../Objetos/Aviones.h"
 
 class Pagina
 {

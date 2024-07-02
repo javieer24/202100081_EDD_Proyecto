@@ -1,5 +1,5 @@
-#ifndef NODOLISTASIMPLE_H_INCLUDED
-#define NODOLISTASIMPLE_H_INCLUDED
+#ifndef NODOLISTA_H_INCLUDED
+#define NODOLISTA_H_INCLUDED
 
 #include <iostream>
 using namespace std;
@@ -43,4 +43,5 @@ NodoLS::~NodoLS()
 {
 }
 
-#endif // NODOLISTASIMPLE_H_INCLUDED
+
+#endif // NODOLISTA_H_INCLUDED

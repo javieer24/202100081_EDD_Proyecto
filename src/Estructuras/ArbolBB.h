@@ -1,5 +1,6 @@
-#ifndef ARBOLBINARIOBUSQUEDA_H_INCLUDED
-#define ARBOLBINARIOBUSQUEDA_H_INCLUDED
+#ifndef ARBOLBB_H_INCLUDED
+#define ARBOLBB_H_INCLUDED
+
 
 #include <iostream>
 #include <fstream>
@@ -7,8 +8,9 @@
 #include <cstdlib>
 using namespace std;
 
-#include "Pilotos.h"
-#include "NodoBinarioBusqueda.h"
+#include "../Objetos/Pilotos.h"
+#include "NodoBB.h"
+
 
 class ArbolBB
 {
@@ -261,4 +263,5 @@ ArbolBB::~ArbolBB()
 {
 }
 
-#endif // ARBOLBINARIOBUSQUEDA_H_INCLUDED
+
+#endif // ARBOLBB_H_INCLUDED

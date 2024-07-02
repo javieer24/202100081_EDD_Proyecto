@@ -53,5 +53,4 @@ int Avion::getClave() const
 Avion::~Avion()
 {
 }
-
 #endif // AVIONES_H_INCLUDED

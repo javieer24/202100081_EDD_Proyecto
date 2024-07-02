@@ -5,7 +5,7 @@
 #include <sstream>
 using namespace std;
 
-#include "Aviones.h"
+#include "../Objetos/Aviones.h"
 
 class NodoLC
 {
@@ -124,4 +124,4 @@ NodoLC::~NodoLC()
 {
 }
 
-#endif // NODOLISTACIRCULARDOBLE_H_INCLUDED
+#endif

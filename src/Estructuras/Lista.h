@@ -1,9 +1,9 @@
-#ifndef LISTASIMPLE_H_INCLUDED
-#define LISTASIMPLE_H_INCLUDED
+#ifndef LISTA_H_INCLUDED
+#define LISTA_H_INCLUDED
 
 #include <iostream>
 using namespace std;
-#include "NodoListaSimple.h"
+#include "NodoLista.h"
 
 class ListaSimple
 {
@@ -110,4 +110,5 @@ ListaSimple::~ListaSimple()
 {
 }
 
-#endif // LISTASIMPLE_H_INCLUDED
+
+#endif // LISTA_H_INCLUDED

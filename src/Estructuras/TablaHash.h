@@ -1,14 +1,16 @@
 #ifndef TABLAHASH_H_INCLUDED
 #define TABLAHASH_H_INCLUDED
 
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
 using namespace std;
 
-#include "ListaSimple.h"
-#include "NodoListaSimple.h"
+
+#include "Lista.h"
+#include "NodoLista.h"
 
 class TablaHash
 {

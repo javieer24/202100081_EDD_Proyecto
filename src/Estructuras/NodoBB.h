@@ -1,11 +1,12 @@
-#ifndef NODOBINARIOBUSQUEDA_H_INCLUDED
-#define NODOBINARIOBUSQUEDA_H_INCLUDED
+#ifndef NODOBB_H_INCLUDED
+#define NODOBB_H_INCLUDED
 
 #include <iostream>
 #include <sstream>
 using namespace std;
 
-#include "Pilotos.h"
+
+#include "../Objetos/Pilotos.h"
 
 class NodoBB
 {
@@ -99,5 +100,4 @@ string NodoBB::graficarDatosArbolBinario()
 NodoBB::~NodoBB()
 {
 }
-
-#endif // NODOBINARIOBUSQUEDA_H_INCLUDED
+#endif // NODOBB_H_INCLUDED

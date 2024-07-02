@@ -3,7 +3,8 @@
 #include <string>
 using namespace std;
 
-#include "NodoMatriz.h"
+#include "NodoM.h"
+
 
 class Matriz
 {

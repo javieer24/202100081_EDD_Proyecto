@@ -1,13 +1,14 @@
 #ifndef LISTACIRCULARDOBLE_H_INCLUDED
 #define LISTACIRCULARDOBLE_H_INCLUDED
 
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
 using namespace std;
 
-#include "Aviones.h"
+#include "../Objetos/Aviones.h"
 #include "NodoListaCircularDoble.h"
 #include "ArbolB.h"
 
@@ -175,5 +176,4 @@ int ListaCircularDoble::obtenerTamano()
 ListaCircularDoble::~ListaCircularDoble()
 {
 }
-
-#endif // LISTACIRCULARDOBLE_H_INCLUDED
+#endif

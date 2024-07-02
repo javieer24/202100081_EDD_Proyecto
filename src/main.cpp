@@ -7,15 +7,16 @@
 #include <algorithm>
 using namespace std;
 
-#include "ArbolB.h"
-#include "ListaCircularDoble.h"
-#include "ArbolBinarioBusqueda.h"
-#include "TablaHash.h"
-#include "Grafo.h"
-#include "Matriz.h"
-#include "ListaSimple.h"
-#include "Aviones.h"
-#include "Pilotos.h"
+#include "Estructuras/ArbolB.h"
+#include "Estructuras/ListaCircularDoble.h"
+#include "Estructuras/ArbolBB.h"
+#include "Estructuras/Matriz.h"
+#include "Estructuras/TablaHash.h"
+#include "Estructuras/Lista.h"
+#include "Estructuras/Grafo.h"
+#include "Objetos/Pilotos.h"
+#include "Objetos/Aviones.h"
+
 
 int opcion;
 

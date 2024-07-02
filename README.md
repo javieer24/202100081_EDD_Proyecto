@@ -22,24 +22,28 @@
 ├── Archivos_de_Prueba
 │   ├── Documentación-202100081.pdf
 │   └── Enunciado_Proyecto_EDD.pdf
-├── ArbolB.h
-├── ArbolBinarioBusqueda.h
-├── Aviones.h
-├── Grafo.h
-├── ListaCircularDobleCircular.h
-├── ListaSimple.h
-├── main.cpp
-├── main.exe
-├── Matriz.h
-├── NodoBinarioBusqueda.h
-├── NodoListaCircularDoble
-├── NodoListaSimple.h
-├── NodoMatriz.h
-├── Pagina.h
-├── Pilotos.h
-├── README.md
-├── TablaHash.h
-└── Vertice.h
+├── src
+│   ├── Estructuras
+|   |    ├──  ArbolB.h
+|   |    ├──  ArbolBB.h
+|   |    ├──  Grafo.h
+|   |    ├──  ListaCircularDobleCircular.h
+|   |    ├──  Lista.h
+|   |    ├──  ListaCircularDoble
+|   |    ├──  Matriz.h
+|   |    ├──  NodoBB.h
+|   |    ├──  NodoLista.h
+|   |    ├──  NodoListacircularDoble.h
+|   |    ├──  NodoM.h
+|   |    ├──  Pagina.h
+|   |    ├──  TablaHash.h
+|   |    ├──  Vertice.h
+|   ├── Objetos
+|   |    ├──  Aviones.h
+|   |    ├──  Pilotos.h
+|   ├── main.cpp
+|   ├── main.exe
+└── README.md
 
 ~~~
 El Sistema de Gestión de Aeropuertos es una aplicación en C++ diseñada para gestionar eficientemente vuelos, pasajeros y equipajes utilizando estructuras de datos avanzadas. Este sistema emplea Árbol B, Lista Doble Circular, Árbol Binario de Búsqueda, Matriz Dispersa, TablaHash y Grafos para manejar diversas operaciones y procesos dentro de un entorno aeroportuario.
