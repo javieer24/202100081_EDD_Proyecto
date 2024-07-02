@@ -53,11 +53,11 @@ El Sistema de Gestión de Aeropuertos es una aplicación en C++ diseñada para g
 
 ## 📋 Tabla de Contenidos
 -[📋 Tabla de Contenidos](#-tabla-de-contenidos)
-- [📟 Instalacion](#-instalacion)
+- [📟 Instalación](#-instalación)
 - [⚒ Requerimientos](#-requerimientos)
 - [🗂 Windows](#-windows)
 - [⚡ Inicio Rápido](#-inicio-rápido)
--[📁 Formato de Archivos de Entrada](-formato-de-archivos-de-entrada)
+- [📁 Formato de Archivos de Entrada](#-formato-de-archivos-de-entrada)
 
 
 ## 📟Instalación 
