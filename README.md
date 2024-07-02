@@ -51,6 +51,15 @@ El Sistema de Gestión de Aeropuertos es una aplicación en C++ diseñada para g
 - **Graphviz** Visualización de estructuras de datos mediante reportes generados.
 - **Ánalisis de JSON**Lectura de datos de entrada para aviones y pasajeros desde archivos JSON.
 
+## 📋 Tabla de Contenidos
+-[📋 Tabla de Contenidos](#-tabla-de-contenidos)
+- [📟 Instalacion](#-instalacion)
+- [⚒ Requerimientos](#-requerimientos)
+- [🗂 Windows](#-windows)
+- [⚡ Inicio Rápido](#-inicio-rápido)
+-[📁 Formato de Archivos de Entrada](-formato-de-archivos-de-entrada)
+
+
 ## 📟Instalación 
  ### ⚒  Requerimientos
 - Compilador C++ (g++ recomendado o MinGW)
@@ -63,7 +72,7 @@ El Sistema de Gestión de Aeropuertos es una aplicación en C++ diseñada para g
 2. Añade `C:\MinGW\bin` a tu variable de entorno PATH del sistema.
 3. Instala [Graphviz](https://graphviz.org/download/).
 
-### 💻 Inicio Rápido
+### ⚡ Inicio Rápido
 1. Clona el repositorio en la carpeta deseada.
 ```sh
 git clone https://github.com/javieer24/202100081_EDD_Proyecto.git
@@ -159,8 +168,6 @@ DarDeBaja(X10000123);
 ## Generación de Reportes
 Los informes se generan utilizando Graphviz y se pueden acceder a ellos a través del menú de la aplicación. Asegúrate de que Graphviz esté correctamente instalado y añadido a la variable PATH de tu sistema.
 
-## Contribuciones
-¡Las contribuciones son bienvenidas! Por favor, haz un fork de este repositorio y envía una pull request para cualquier mejora o corrección de errores.
 
 ## 📖 Documentación
 Para comprender de mejor manera el funcionamiento del sistema puede dirigirse a lo siguiente:
@@ -168,3 +175,6 @@ Para comprender de mejor manera el funcionamiento del sistema puede dirigirse a 
        <li><a href="https://github.com/javieer24/202100081_EDD_Proyecto/blob/main/Documentaci%C3%B3n/Enunciado_Proyecto_EDD.pdf" target="_blank">:point_right:Planteamiento de proyecto</a></li>
         <li><a href="https://github.com/javieer24/202100081_EDD_Proyecto/blob/main/Documentaci%C3%B3n/Documentaci%C3%B3n-202100081.pdf" target="_blank">:point_right:Documentacion Ensayo</a></li>
     </ul>
+
+## Contribuciones
+¡Las contribuciones son bienvenidas! Por favor, haz un fork de este repositorio y envía una pull request para cualquier mejora o corrección de errores.
