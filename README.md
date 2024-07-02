@@ -53,12 +53,24 @@ El Sistema de Gestión de Aeropuertos es una aplicación en C++ diseñada para g
 
 ## 📋 Tabla de Contenidos
 -[📋 Tabla de Contenidos](#-tabla-de-contenidos)
-- [📟 Instalación](#-instalación)
-- [⚒ Requerimientos](#-requerimientos)
-- [🗂 Windows](#-windows)
-- [⚡ Inicio Rápido](#-inicio-rápido)
-- [📁 Formato de Archivos de Entrada](#-formato-de-archivos-de-entrada)
-
+- [202100081\_EDD\_Proyecto](#202100081_edd_proyecto)
+- [ SISTEMA DE GESTIÓN DE AEROPUERTO ](#-sistema-de-gestión-de-aeropuerto-)
+  - [🔨 Estructura](#-estructura)
+  - [💡 Características:](#-características)
+  - [📋 Tabla de Contenidos](#-tabla-de-contenidos)
+  - [📟Instalación](#instalación)
+    - [⚒  Requerimientos](#--requerimientos)
+    - [🗂 Windows](#-windows)
+    - [⚡ Inicio Rápido](#-inicio-rápido)
+  - [📁 Formato de Archivos de Entrada](#-formato-de-archivos-de-entrada)
+    - [Aviones](#aviones)
+    - [Pilotos](#pilotos)
+    - [Rutas](#rutas)
+    - [Aviones](#aviones-1)
+  - [🗂️ Generación de Reportes](#️-generación-de-reportes)
+  - [💻 Ejemplo de Interfaz de Usuario](#-ejemplo-de-interfaz-de-usuario)
+  - [📖 Documentación](#-documentación)
+  - [Contribuciones](#contribuciones)
 
 ## 📟Instalación 
  ### ⚒  Requerimientos
@@ -165,9 +177,14 @@ DarDeBaja(X07000123);
 DarDeBaja(X10000123);
 
 ```
-## Generación de Reportes
+## 🗂️ Generación de Reportes
 Los informes se generan utilizando Graphviz y se pueden acceder a ellos a través del menú de la aplicación. Asegúrate de que Graphviz esté correctamente instalado y añadido a la variable PATH de tu sistema.
 
+## 💻 Ejemplo de Interfaz de Usuario
+
+<p align="center">
+    <img src="Documentación\IMG\menu.png">
+</p>
 
 ## 📖 Documentación
 Para comprender de mejor manera el funcionamiento del sistema puede dirigirse a lo siguiente:
