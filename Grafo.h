@@ -99,7 +99,7 @@ void Grafo::nuevoArco(string nombre1, string nombre2, int distancia)
   }
   else
   {
-    cout << "Error, uno de los vértices no existen\n";
+    cout << "Error, uno de los vertices no existen\n";
   }
 }
 
@@ -175,7 +175,7 @@ void Grafo::caminoMasCorto(string nombreInicio, string nombreFin)
 
   if (verticeInicio < 0 || verticeFin < 0)
   {
-    cout << "Error, uno de los vértices no existe\n";
+    cout << "Error, uno de los vertices no existe\n";
     return;
   }
 

@@ -57,7 +57,7 @@ void ListaSimple::eliminarNodo(string numeroId)
 {
   if (ListaSimple::estaVacia())
   {
-    cout << "La lista está vacía\n"
+    cout << "La lista está vacia\n"
          << endl;
     return;
   }
@@ -66,7 +66,7 @@ void ListaSimple::eliminarNodo(string numeroId)
     NodoLS *temp = primero;
     primero = primero->getSiguiente();
     delete temp;
-    cout << "Piloto con número de identificación " << numeroId << " eliminado." << endl;
+    cout << "Piloto con numero de identificacion " << numeroId << " eliminado." << endl;
     return;
   }
   NodoLS *actual = primero;
@@ -78,19 +78,19 @@ void ListaSimple::eliminarNodo(string numeroId)
   }
   if (!actual)
   {
-    cout << "No se encontró el piloto con el número de identificación: " << numeroId << "." << endl;
+    cout << "No se encontró el piloto con el numero de identificacion: " << numeroId << "." << endl;
     return;
   }
   anterior->setSiguiente(actual->getSiguiente());
   delete actual;
-  cout << "Piloto con número de identificación " << numeroId << " eliminado." << endl;
+  cout << "Piloto con numero de identificacion " << numeroId << " eliminado." << endl;
 }
 
 void ListaSimple::visualizarLista()
 {
   if (ListaSimple::estaVacia())
   {
-    cout << "La lista está vacía\n"
+    cout << "La lista está vacia\n"
          << endl;
   }
   else
