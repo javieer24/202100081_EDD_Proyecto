@@ -22,6 +22,7 @@ int opcion;
 string linea;
 string filename;
 
+//Variables globales
 ListaCircularDoble listaMantenimiento;
 ArbolB arbolBDisponible;
 ArbolBB arbolBinarioPilotos;
@@ -29,13 +30,14 @@ TablaHash tablaPilotos;
 Grafo grafoRutas(50);
 Matriz matrizPilotoVuelo;
 
+//Funcion para cargar los aviones
 void cargarAviones(const string &filename, ArbolB &arbolBDisponible, ListaCircularDoble &listaMantenimiento)
 {
   ifstream archivo(filename);
   if (archivo.is_open())
   {
     string linea;
-
+//Variables para los aviones
     string vuelo;
     string numeroRegistro;
     string modelo;
@@ -43,7 +45,7 @@ void cargarAviones(const string &filename, ArbolB &arbolBDisponible, ListaCircul
     string aerolinea;
     string ciudadDestino;
     string estado;
-
+//Leyendo el archivo de aviones
     while (getline(archivo, linea))
     {
       size_t pos = linea.find(":");
@@ -51,7 +53,7 @@ void cargarAviones(const string &filename, ArbolB &arbolBDisponible, ListaCircul
       {
         string key = linea.substr(0, pos);
         string value = linea.substr(pos + 1);
-
+//Eliminando espacios, comillas y tabulaciones
         key.erase(remove(key.begin(), key.end(), ' '), key.end());
         key.erase(remove(key.begin(), key.end(), '\"'), key.end());
         key.erase(remove(key.begin(), key.end(), '\t'), key.end());
@@ -94,7 +96,7 @@ void cargarAviones(const string &filename, ArbolB &arbolBDisponible, ListaCircul
         {
           Avion nuevoAvionDisp(vuelo, numeroRegistro, modelo, capacidad, aerolinea, ciudadDestino, estado);
           arbolBDisponible.insertar(nuevoAvionDisp);
-        }
+        } //Si el avion esta en mantenimiento
         else if (estado == "Mantenimiento")
         {
           Avion *nuevoAvionMante = new Avion(vuelo, numeroRegistro, modelo, capacidad, aerolinea, ciudadDestino, estado);
@@ -111,20 +113,21 @@ void cargarAviones(const string &filename, ArbolB &arbolBDisponible, ListaCircul
   }
 }
 
+//Funcion para cargar los pilotos
 void cargarPilotos(const string &filename, ArbolBB &arbolBinarioPilotos, TablaHash &tablaPilotos)
 {
   ifstream archivo(filename);
   if (archivo.is_open())
   {
     string linea;
-
+//Variables para los pilotos
     string nombre;
     string nacionalidad;
     string numeroId;
     string vuelo;
     int horasVuelo;
     string tipoLicencia;
-
+//Leyendo el archivo de pilotos
     while (getline(archivo, linea))
     {
       size_t pos = linea.find(":");
@@ -139,7 +142,7 @@ void cargarPilotos(const string &filename, ArbolBB &arbolBinarioPilotos, TablaHa
         value.erase(0, 1);
         value.erase(remove(value.begin(), value.end(), '\"'), value.end());
         value.erase(remove(value.begin(), value.end(), ','), value.end());
-
+//Asignando valores a las variables
         if (key == "nombre")
         {
           nombre = value;
@@ -170,7 +173,7 @@ void cargarPilotos(const string &filename, ArbolBB &arbolBinarioPilotos, TablaHa
         Piloto *nuevoPiloto = new Piloto(nombre, nacionalidad, numeroId, vuelo, horasVuelo, tipoLicencia);
         arbolBinarioPilotos.insertar(nuevoPiloto);
         tablaPilotos.insertar(numeroId);
-
+//Asignando pilotos a los vuelos
         string ciudadDestino = "";
         ciudadDestino = arbolBDisponible.buscarAvion(vuelo);
         if (ciudadDestino == "")
@@ -191,7 +194,7 @@ void cargarPilotos(const string &filename, ArbolBB &arbolBinarioPilotos, TablaHa
     cerr << "No se pudo abrir el archivo para leer." << endl;
   }
 }
-
+//Funcion para cargar las rutas
 void cargarRutas(const string &filename, Grafo &grafoRutas)
 {
   ifstream file(filename);
@@ -202,7 +205,7 @@ void cargarRutas(const string &filename, Grafo &grafoRutas)
     {
       stringstream ss(linea);
       string origen, destino, dist;
-
+//Leyendo el archivo de rutas
       getline(ss, origen, '/');
       getline(ss, destino, '/');
       getline(ss, dist, ';');
@@ -211,12 +214,12 @@ void cargarRutas(const string &filename, Grafo &grafoRutas)
       grafoRutas.nuevoVertice(origen);
       grafoRutas.nuevoVertice(destino);
       grafoRutas.nuevoArco(origen, destino, distancia);
-    }
+    }//Cerrando el archivo
     cout << "Rutas cargadas al sistema exitosamente." << endl;
     file.close();
   }
   else
-  {
+  {//Error al abrir el archivo de rutas
     cerr << "Error al abrir el archivo de movimientos. " << endl;
   }
 }
@@ -233,37 +236,9 @@ void cargarMovimientos(const string &filename, ArbolBB &arbolBinarioPilotos, Tab
       string comando;
 
       getline(ss, comando, ',');
-
+//Leyendo el archivo de movimientos
       if (comando == "MantenimientoAviones")
       {
-        // string accion, numeroRegistro;
-        // getline(ss, accion, ',');
-        // getline(ss, numeroRegistro, ';');
-        // if (accion == "Ingreso")
-        // {
-        //   if (arbolBDisponible.moverAvion(numeroRegistro, listaMantenimiento))
-        //   {
-        //     cout << "Avion " << numeroRegistro << " movido a Mantenimiento." << endl;
-        //   }
-        //   else
-        //   {
-        //     cout << "Avion no encontrado." << endl;
-        //   }
-        // }
-        // else if (accion == "Salida")
-        // {
-        //   NodoLC *test = listaMantenimiento.buscarAvion(numeroRegistro);
-        //   if (test != nullptr)
-        //   {
-        //     test->setEstado("Disponible");
-        //     listaMantenimiento.moverAvion(arbolBDisponible, test);
-        //     cout << "Avion " << numeroRegistro << " movido a Disponible." << endl;
-        //   }
-        //   else
-        //   {
-        //     cout << "No fue posible encontrar el avion " << numeroRegistro << " en la lista de aviones en mantenimiento." << endl;
-        //   }
-        // }
       }
       else if (comando.find("DarDeBaja") != string::npos)
       {

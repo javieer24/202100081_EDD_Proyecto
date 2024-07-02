@@ -104,16 +104,6 @@ NodoLC *ListaCircularDoble::eliminarAvion(NodoLC *avion)
   return avion;
 }
 
-// void ListaCircularDoble::moverAvion(ArbolB &otraLista, NodoLC *avion)
-// {
-//   if (avion != nullptr)
-//   {
-//     Avion avion2(avion->getVuelo(), avion->getNumeroRegistro(), avion->getModelo(), avion->getCapacidad(), avion->getAerolinea(), avion->getCiudadDestino(), avion->getEstado());
-//     eliminarAvion(avion);
-//     otraLista.insertar(avion2);
-//   }
-// }
-
 string ListaCircularDoble::buscarAvion2(string numeroVuelo)
 {
   if (!primero)
